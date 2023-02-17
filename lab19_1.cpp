@@ -20,8 +20,9 @@ string toUpperStr(string x){
     return y;
 }
 
-void importDataFromFile(string filename,vector<string> names,vector<int> scores,vector<char> grades){
-    ifstream data(filename);
+void importDataFromFile(string filename,vector<string> &names,vector<int> &scores,vector<char> &grades){
+    ifstream data;
+    data.open(filename.c_str());
     string s;
     while(getline(data,s))
     {
@@ -35,12 +36,12 @@ void importDataFromFile(string filename,vector<string> names,vector<int> scores,
         scores.push_back(sum);
         grades.push_back(score2grade(sum));
     }
-    return;
+    data.close();
 }
 
-void getCommand(string command,string key){
-    string textline;
+void getCommand(string &command,string &key){
     cout << "Please input your command: ";
+    string textline;
     getline(cin,textline);
     const char *text = textline.c_str();
     char commandn[100],keyn[100];
@@ -48,19 +49,18 @@ void getCommand(string command,string key){
     sscanf(text,format,commandn,keyn);
     command = commandn;
     key = keyn;
-    return;
 }
 
 void searchName(vector<string> names,vector<int> scores,vector<char> grades,string key){
-    cout << "---------------------------------";
+    cout << "---------------------------------" << endl;
     for(unsigned int i=0; i<names.size() ;i++)
     {
         if(toUpperStr(names[i]) == key)
         {
             cout << names[i] << "'s score = " << scores[i] << endl;
             cout << names[i] << "'s grade = " << grades[i] << endl;
-            cout << "---------------------------------";
-            return;
+            cout << "---------------------------------" << endl;
+
         }
     }
     cout << "Cannot found." << endl;
@@ -68,7 +68,7 @@ void searchName(vector<string> names,vector<int> scores,vector<char> grades,stri
 }
 
 void searchGrade(vector<string> names,vector<int> scores,vector<char> grades,string key){
-    cout << "---------------------------------";
+    cout << "---------------------------------" << endl;
     bool found = false;
     for(unsigned int i=0; i<names.size() ;i++)
     {
